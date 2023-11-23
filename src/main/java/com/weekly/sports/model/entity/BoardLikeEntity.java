@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user_board")
-@IdClass(UserBoardEntityId.class)
-public class UserBoardEntity {
+@Table(name = "board_like")
+@IdClass(BoardLikeEntityId.class)
+public class BoardLikeEntity {
 
     @Id
     @ManyToOne

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserBoardEntityId implements Serializable {
+public class BoardLikeEntityId implements Serializable {
 
     private Long userId;
     private Long boardId;
