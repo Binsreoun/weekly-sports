@@ -3,7 +3,6 @@ package com.weekly.sports.security;
 
 import com.weekly.sports.model.entity.UserEntity;
 import com.weekly.sports.repository.UserRepository;
-import com.weekly.sports.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
