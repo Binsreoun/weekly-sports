@@ -1,5 +1,7 @@
 package com.weekly.sports.service;
 
+import com.weekly.sports.common.exception.GlobalException;
+import com.weekly.sports.common.meta.ResultCode;
 import com.weekly.sports.model.dto.request.BoardAddRequestDto;
 import com.weekly.sports.model.dto.request.BoardUpdateRequestDto;
 import com.weekly.sports.model.dto.response.BoardResponseDto;
@@ -67,6 +69,6 @@ public class BoardService {
     //Id 확인하여 게시판 유무 확인
     private BoardEntity getBoardEntity(Long boardId) {
         return boardRepository.findById(boardId)
-            .orElseThrow(() -> new NullPointerException("해당 게시글을 찾을 수 업습니다."));
+            .orElseThrow(() -> new GlobalException(ResultCode.SYSTEM_ERROR));
     }
 }
