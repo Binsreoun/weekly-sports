@@ -28,7 +28,7 @@ public class BoardController {
   //게시글 단일 조회
   @GetMapping("/{boardId}")
   public BoardResponseDto getBoard(@PathVariable Long boardId) {
-    return boardService.getBoard();
+    return boardService.getBoard(boardId);
   }
 
   //게시글 전체 조회
