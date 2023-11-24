@@ -35,6 +35,6 @@ public class BoardController {
   //게시글 전체 조회
   @GetMapping
   public List<BoardResponseDto> getBoards() {
-    boardService.getBoards();
+    return boardService.getBoards();
   }
 }
