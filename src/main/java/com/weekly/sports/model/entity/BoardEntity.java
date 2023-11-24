@@ -1,5 +1,6 @@
 package com.weekly.sports.model.entity;
 
+import com.weekly.sports.model.dto.request.BoardAddRequestDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,14 +21,19 @@ import lombok.NoArgsConstructor;
 @Table(name = "board")
 public class BoardEntity extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long boardId;
-    private String title;
-    private String content;
-    private int visit;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long boardId;
+  private String title;
+  private String content;
+  private int visit;
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private UserEntity userEntities;
+  @ManyToOne
+  @JoinColumn(name = "userId")
+  private UserEntity userEntities;
+
+  public BoardEntity(BoardAddRequestDto requestDto) {
+    this.title = requestDto.getTitle();
+    this.content = requestDto.getContent();
+  }
 }
