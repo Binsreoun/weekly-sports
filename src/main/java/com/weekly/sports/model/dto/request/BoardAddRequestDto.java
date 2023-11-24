@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public class BoardAddRequestDto {
 
-  //받는 내용
-  private String title;
-  private String content;
+    //받는 내용
+    private String title;
+    private String content;
 
 }

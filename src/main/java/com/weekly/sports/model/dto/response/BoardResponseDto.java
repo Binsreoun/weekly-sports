@@ -7,15 +7,15 @@ import lombok.Getter;
 @Getter
 public class BoardResponseDto {
 
-  private Long boardId;
-  private String title;
-  private String content;
-  private Timestamp createTimestamp;
+    private Long boardId;
+    private String title;
+    private String content;
+    private Timestamp createTimestamp;
 
-  public BoardResponseDto(BoardEntity saveBoard) {
-    this.boardId = saveBoard.getBoardId();
-    this.title = saveBoard.getTitle();
-    this.content = saveBoard.getContent();
-    this.createTimestamp = saveBoard.getCreateTimestamp();
-  }
+    public BoardResponseDto(BoardEntity saveBoard) {
+        this.boardId = saveBoard.getBoardId();
+        this.title = saveBoard.getTitle();
+        this.content = saveBoard.getContent();
+        this.createTimestamp = saveBoard.getCreateTimestamp();
+    }
 }

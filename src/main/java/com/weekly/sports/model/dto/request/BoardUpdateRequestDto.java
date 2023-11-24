@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class BoardUpdateRequestDto {
 
-  private String title;
-  private String content;
+    private String title;
+    private String content;
 
 }

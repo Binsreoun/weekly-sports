@@ -24,24 +24,24 @@ import lombok.Setter;
 @Table(name = "board")
 public class BoardEntity extends BaseEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long boardId;
-  private String title;
-  private String content;
-  private int visit;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long boardId;
+    private String title;
+    private String content;
+    private int visit;
 
-  @ManyToOne
-  @JoinColumn(name = "userId")
-  private UserEntity userEntities;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private UserEntity userEntities;
 
-  public BoardEntity(BoardAddRequestDto requestDto) {
-    this.title = requestDto.getTitle();
-    this.content = requestDto.getContent();
-  }
+    public BoardEntity(BoardAddRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+    }
 
-  public void update(BoardUpdateRequestDto requestDto) {
-    this.title = requestDto.getTitle();
-    this.content = requestDto.getContent();
-  }
+    public void update(BoardUpdateRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+    }
 }
