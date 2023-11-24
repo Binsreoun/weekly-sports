@@ -4,9 +4,12 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://nbcamp.cbmmbliyhxmu.ap-northeast-2.rds.amazonaws.com:3306/sports?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/nbcamp?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: ysys
-    password: nbcampYs1234!
+    password: ysys
+  #    url: jdbc:mysql://nbcamp.cbmmbliyhxmu.ap-northeast-2.rds.amazonaws.com:3306/sports?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+  #    username: ysys
+  #    password: nbcampYs1234!
 
   security:
     oauth2:
@@ -19,9 +22,9 @@ spring:
         scope: profile, email
 
   jpa:
-    open-in-view: false
+    open-in-view: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
