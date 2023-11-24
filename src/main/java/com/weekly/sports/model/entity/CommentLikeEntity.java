@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user_comment")
-@IdClass(UserCommentEntityId.class)
-public class UserCommentEntity {
+@Table(name = "comment_like")
+@IdClass(CommentLikeEntityId.class)
+public class CommentLikeEntity {
 
     @Id
     @ManyToOne
