@@ -4,12 +4,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/nbcamp?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://nbcamp.cbmmbliyhxmu.ap-northeast-2.rds.amazonaws.com:3306/sports?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: ysys
-    password: ysys
-  #    url: jdbc:mysql://nbcamp.cbmmbliyhxmu.ap-northeast-2.rds.amazonaws.com:3306/sports?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-  #    username: ysys
-  #    password: nbcampYs1234!
+    password: nbcampYs1234!
 
   security:
     oauth2:
