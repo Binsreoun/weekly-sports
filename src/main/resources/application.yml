@@ -19,7 +19,7 @@ spring:
         scope: profile, email
 
   jpa:
-    open-in-view: false
+    open-in-view: true
     hibernate:
       ddl-auto: validate
       naming:
