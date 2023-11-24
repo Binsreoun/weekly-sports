@@ -3,6 +3,7 @@ package com.weekly.sports.controller;
 import com.weekly.sports.model.dto.request.BoardAddRequestDto;
 import com.weekly.sports.model.dto.response.BoardResponseDto;
 import com.weekly.sports.service.BoardService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,4 +33,8 @@ public class BoardController {
   }
 
   //게시글 전체 조회
+  @GetMapping
+  public List<BoardResponseDto> getBoards() {
+    boardService.getBoards();
+  }
 }

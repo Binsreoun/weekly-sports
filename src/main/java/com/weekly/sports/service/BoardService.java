@@ -4,6 +4,8 @@ import com.weekly.sports.model.dto.request.BoardAddRequestDto;
 import com.weekly.sports.model.dto.response.BoardResponseDto;
 import com.weekly.sports.model.entity.BoardEntity;
 import com.weekly.sports.repository.BoardRepository;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +27,17 @@ public class BoardService {
         .orElseThrow(() -> new NullPointerException("해당 게시글을 찾을 수 업습니다."));
 
     return new BoardResponseDto(boardEntity);
+  }
+
+  public List<BoardResponseDto> getBoards() {
+    List<BoardResponseDto> responseDtoList = new ArrayList<>();
+
+    List<BoardEntity> boardList = boardRepository.findAllByOrderByCreateTimestampDesc();
+    for (BoardEntity boardEntity : boardList) {
+      BoardResponseDto responseDto = new BoardResponseDto(boardEntity);
+      responseDtoList.add(responseDto);
+    }
+
+    return responseDtoList;
   }
 }
