@@ -4,6 +4,7 @@ import com.weekly.sports.common.response.RestResponse;
 import com.weekly.sports.model.dto.request.BoardAddRequestDto;
 import com.weekly.sports.model.dto.request.BoardUpdateRequestDto;
 import com.weekly.sports.model.dto.response.BoardResponseDto;
+import com.weekly.sports.model.dto.response.SampleRes;
 import com.weekly.sports.service.BoardService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +53,9 @@ public class BoardController {
     //게시글 삭제
 
     @DeleteMapping("/{boardId}")
-    public void deleteBoard(@PathVariable Long boardId) {
+    public RestResponse<SampleRes> deleteBoard(@PathVariable Long boardId) {
         boardService.deleteBoard(boardId);
+        //void타입이 리턴이 안되어 sample값을 넣었습니다.
+        return RestResponse.success(SampleRes.builder().name("Delete").text("삭제되었습니다.").build());
     }
 }
