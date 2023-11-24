@@ -2,8 +2,10 @@ package com.weekly.sports.controller;
 
 import com.weekly.sports.common.meta.ResultCode;
 import com.weekly.sports.common.response.RestResponse;
+import com.weekly.sports.model.dto.request.FollowReq;
 import com.weekly.sports.model.dto.request.UserProfileReq;
 import com.weekly.sports.model.dto.request.UserSignUpDto;
+import com.weekly.sports.model.dto.response.FollowRes;
 import com.weekly.sports.model.dto.response.SampleRes;
 import com.weekly.sports.model.dto.response.UserProfileRes;
 import com.weekly.sports.service.UserService;
@@ -47,5 +49,14 @@ public class UserController {
     @GetMapping("/user")
     public RestResponse<UserProfileRes> getUserProfile(@RequestBody UserProfileReq userProfileReq) {
         return RestResponse.success(userService.getUserProfile(userProfileReq));
+    }
+
+    @PostMapping("/user/follow")
+    public RestResponse<FollowRes> followUser(@RequestBody FollowReq followReq) {
+        if (followReq.getIsFollow()) {
+            return RestResponse.success(userService.followUser(followReq));
+        } else {
+            return RestResponse.success(userService.unFollowUser(followReq));
+        }
     }
 }
