@@ -1,9 +1,13 @@
+server:
+  port: 8081
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/weeklysport
-    username: root
-    password: jang9639
+    url: jdbc:mysql://nbcamp.cbmmbliyhxmu.ap-northeast-2.rds.amazonaws.com:3306/sports?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ysys
+    password: nbcampYs1234!
+
   security:
     oauth2:
       google:
@@ -17,7 +21,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
@@ -34,9 +38,3 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
-
-
-
-
-
-
