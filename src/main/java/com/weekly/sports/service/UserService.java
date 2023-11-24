@@ -1,6 +1,7 @@
 package com.weekly.sports.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.weekly.sports.common.validator.UserValidator;
 import com.weekly.sports.model.dto.request.UserProfileReq;
 import com.weekly.sports.model.dto.request.UserSignUpDto;
 import com.weekly.sports.model.dto.response.UserProfileRes;
@@ -117,8 +118,9 @@ public class UserService {
     }
 
     public UserProfileRes getUserProfile(UserProfileReq userProfileReq) {
-        return UserServiceMapper.INSTANCE.toUserProfileRes(
-            userRepository.findByUserId(userProfileReq.getUserId()));
+        UserEntity userEntity = userRepository.findByUserId(userProfileReq.getUserId());
+        UserValidator.validator(userEntity);
+        return UserServiceMapper.INSTANCE.toUserProfileRes(userEntity);
     }
 
     @Mapper
