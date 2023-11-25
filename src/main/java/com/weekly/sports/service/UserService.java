@@ -10,6 +10,7 @@ import com.weekly.sports.model.dto.response.UserProfileRes;
 import com.weekly.sports.model.entity.FollowEntity;
 import com.weekly.sports.model.entity.UserEntity;
 import com.weekly.sports.model.entity.UserSocialEnum;
+import com.weekly.sports.repository.FollowRepository;
 import com.weekly.sports.repository.UserRepository;
 import com.weekly.sports.security.jwt.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,17 +37,13 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class UserService {
 
-  private final UserRepository userRepository;
-  private final PasswordEncoder passwordEncoder;
-  private final Environment env;
-  private final JwtUtil jwtUtil;
-  private final RestTemplate restTemplate = new RestTemplate();
     private final UserRepository userRepository;
-    private final FollowRepository followRepository;
     private final PasswordEncoder passwordEncoder;
     private final Environment env;
     private final JwtUtil jwtUtil;
     private final RestTemplate restTemplate = new RestTemplate();
+    private final FollowRepository followRepository;
+
 
     public void signUp(UserSignUpDto userSignUpDto) {
 
