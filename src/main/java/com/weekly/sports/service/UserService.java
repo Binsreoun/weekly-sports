@@ -2,12 +2,15 @@ package com.weekly.sports.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.weekly.sports.common.validator.UserValidator;
+import com.weekly.sports.model.dto.request.FollowReq;
 import com.weekly.sports.model.dto.request.UserProfileReq;
 import com.weekly.sports.model.dto.request.UserSignUpDto;
+import com.weekly.sports.model.dto.response.FollowRes;
 import com.weekly.sports.model.dto.response.UserProfileRes;
 import com.weekly.sports.model.entity.FollowEntity;
 import com.weekly.sports.model.entity.UserEntity;
 import com.weekly.sports.model.entity.UserSocialEnum;
+import com.weekly.sports.repository.FollowRepository;
 import com.weekly.sports.repository.UserRepository;
 import com.weekly.sports.security.jwt.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,6 +38,7 @@ import org.springframework.web.client.RestTemplate;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final FollowRepository followRepository;
     private final PasswordEncoder passwordEncoder;
     private final Environment env;
     private final JwtUtil jwtUtil;
@@ -121,6 +125,41 @@ public class UserService {
         UserEntity userEntity = userRepository.findByUserId(userProfileReq.getUserId());
         UserValidator.validator(userEntity);
         return UserServiceMapper.INSTANCE.toUserProfileRes(userEntity);
+    }
+
+    public FollowRes followUser(FollowReq followReq) {
+        UserEntity followerUser = getUserEntityByUserId(followReq.getFollowerUserId());
+        UserEntity followingUser = getUserEntityByUserId(followReq.getFollowingUserId());
+
+        FollowEntity followEntity = getPrevFollow(followerUser, followingUser);
+        UserValidator.checkAlreadyFollowed(followEntity);
+
+        followRepository.save(FollowEntity.builder()
+            .followerUserId(followerUser)
+            .followingUserId(followingUser)
+            .build());
+        return new FollowRes();
+    }
+
+    public FollowRes unFollowUser(FollowReq followReq) {
+        UserEntity followerUser = getUserEntityByUserId(followReq.getFollowerUserId());
+        UserEntity followingUser = getUserEntityByUserId(followReq.getFollowingUserId());
+
+        FollowEntity followEntity = getPrevFollow(followerUser, followingUser);
+        UserValidator.checkNotYetFollowed(followEntity);
+
+        followRepository.delete(followEntity);
+        return new FollowRes();
+    }
+
+    private UserEntity getUserEntityByUserId(Long userId) {
+        UserEntity user = userRepository.findByUserId(userId);
+        UserValidator.validator(user);
+        return user;
+    }
+
+    private FollowEntity getPrevFollow(UserEntity followerUser, UserEntity followingUser) {
+        return followRepository.findByFollowerUserIdAndFollowingUserId(followerUser, followingUser);
     }
 
     @Mapper
