@@ -5,8 +5,10 @@ import com.weekly.sports.common.validator.UserValidator;
 import com.weekly.sports.model.dto.request.FollowReq;
 import com.weekly.sports.model.dto.request.UserProfileReq;
 import com.weekly.sports.model.dto.request.UserSignUpDto;
+import com.weekly.sports.model.dto.request.UserUpdateReq;
 import com.weekly.sports.model.dto.response.FollowRes;
 import com.weekly.sports.model.dto.response.UserProfileRes;
+import com.weekly.sports.model.dto.response.UserUpdateRes;
 import com.weekly.sports.model.entity.FollowEntity;
 import com.weekly.sports.model.entity.UserEntity;
 import com.weekly.sports.model.entity.UserSocialEnum;
@@ -125,6 +127,20 @@ public class UserService {
         UserEntity userEntity = userRepository.findByUserId(userProfileReq.getUserId());
         UserValidator.validator(userEntity);
         return UserServiceMapper.INSTANCE.toUserProfileRes(userEntity);
+    }
+
+    public UserUpdateRes updateUser(UserUpdateReq userUpdateReq) {
+        UserEntity prevUser = userRepository.findByUserId(userUpdateReq.getUserId());
+        UserValidator.validator(prevUser);
+        userRepository.save(UserEntity.builder()
+            .userId(prevUser.getUserId())
+            .email(prevUser.getEmail())
+            .username(userUpdateReq.getUsername())
+            .password(passwordEncoder.encode(userUpdateReq.getPassword()))
+            .introduction(userUpdateReq.getIntroduction())
+            .social(prevUser.getSocial())
+            .build());
+        return new UserUpdateRes();
     }
 
     public FollowRes followUser(FollowReq followReq) {
