@@ -4,14 +4,25 @@ import static com.weekly.sports.common.meta.ResultCode.SYSTEM_ERROR;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.weekly.sports.common.exception.GlobalException;
+import com.weekly.sports.common.validator.UserValidator;
+import com.weekly.sports.model.dto.request.FollowReq;
+import com.weekly.sports.model.dto.request.UserProfileReq;
 import com.weekly.sports.model.dto.request.UserSignUpDto;
+import com.weekly.sports.model.dto.response.FollowRes;
+import com.weekly.sports.model.dto.response.UserProfileRes;
+import com.weekly.sports.model.entity.FollowEntity;
 import com.weekly.sports.model.entity.UserEntity;
 import com.weekly.sports.model.entity.UserSocialEnum;
+import com.weekly.sports.repository.FollowRepository;
 import com.weekly.sports.repository.UserRepository;
 import com.weekly.sports.security.jwt.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -34,6 +45,8 @@ public class UserService {
     private final Environment env;
     private final JwtUtil jwtUtil;
     private final RestTemplate restTemplate = new RestTemplate();
+    private final FollowRepository followRepository;
+
 
     public void signUp(UserSignUpDto userSignUpDto) {
 
@@ -111,5 +124,58 @@ public class UserService {
 
         return restTemplate.exchange(resourceUri, HttpMethod.GET, entity, JsonNode.class).getBody();
     }
-    
+
+    public UserProfileRes getUserProfile(UserProfileReq userProfileReq) {
+        UserEntity userEntity = userRepository.findByUserId(userProfileReq.getUserId());
+        UserValidator.validator(userEntity);
+        return UserServiceMapper.INSTANCE.toUserProfileRes(userEntity);
+    }
+
+    public FollowRes followUser(FollowReq followReq) {
+        UserEntity followerUser = getUserEntityByUserId(followReq.getFollowerUserId());
+        UserEntity followingUser = getUserEntityByUserId(followReq.getFollowingUserId());
+
+        FollowEntity followEntity = getPrevFollow(followerUser, followingUser);
+        UserValidator.checkAlreadyFollowed(followEntity);
+
+        followRepository.save(FollowEntity.builder()
+            .followerUserId(followerUser)
+            .followingUserId(followingUser)
+            .build());
+        return new FollowRes();
+    }
+
+    public FollowRes unFollowUser(FollowReq followReq) {
+        UserEntity followerUser = getUserEntityByUserId(followReq.getFollowerUserId());
+        UserEntity followingUser = getUserEntityByUserId(followReq.getFollowingUserId());
+
+        FollowEntity followEntity = getPrevFollow(followerUser, followingUser);
+        UserValidator.checkNotYetFollowed(followEntity);
+
+        followRepository.delete(followEntity);
+        return new FollowRes();
+    }
+
+    private UserEntity getUserEntityByUserId(Long userId) {
+        UserEntity user = userRepository.findByUserId(userId);
+        UserValidator.validator(user);
+        return user;
+    }
+
+    private FollowEntity getPrevFollow(UserEntity followerUser, UserEntity followingUser) {
+        return followRepository.findByFollowerUserIdAndFollowingUserId(followerUser, followingUser);
+    }
+
+    @Mapper
+    public interface UserServiceMapper {
+
+        UserServiceMapper INSTANCE = Mappers.getMapper(UserServiceMapper.class);
+
+        default int toFollowerCnt(List<FollowEntity> followEntities) {
+            return followEntities.size();
+        }
+
+        @Mapping(source = "followEntities", target = "followerCnt")
+        UserProfileRes toUserProfileRes(UserEntity userEntity);
+    }
 }
