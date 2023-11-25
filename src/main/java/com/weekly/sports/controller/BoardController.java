@@ -6,11 +6,13 @@ import com.weekly.sports.model.dto.request.BoardLikeReq;
 import com.weekly.sports.model.dto.request.BoardUpdateRequestDto;
 import com.weekly.sports.model.dto.response.BoardLikeRes;
 import com.weekly.sports.model.dto.response.BoardResponseDto;
+import com.weekly.sports.security.UserDetailsImpl;
 import com.weekly.sports.service.BoardLikeService;
 import com.weekly.sports.service.BoardService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -63,7 +65,10 @@ public class BoardController {
     }
 
     @PostMapping("/like")
-    public RestResponse<BoardLikeRes> likeBoard(@RequestBody BoardLikeReq boardLikeReq) {
+    public RestResponse<BoardLikeRes> likeBoard(
+        @AuthenticationPrincipal UserDetailsImpl userDetails,
+        @RequestBody BoardLikeReq boardLikeReq) {
+        boardLikeReq.setUserId(userDetails.getUser().getUserId());
         if (boardLikeReq.getIsLike()) {
             return RestResponse.success(boardLikeService.likeBoard(boardLikeReq));
         } else {
