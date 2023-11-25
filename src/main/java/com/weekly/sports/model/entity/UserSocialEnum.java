@@ -6,5 +6,5 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum UserSocialEnum {
-  KAKAO, NAVER, GOOGLE, LOCAL
+    KAKAO, NAVER, GOOGLE, LOCAL
 }
