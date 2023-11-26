@@ -8,7 +8,8 @@ public enum ResultCode {
     ALREADY_FOLLOWED(3000, "이미 팔로우된 유저입니다."),
     NOT_YET_FOLLOWED(3001, "아직 팔로우되지 않은 유저입니다."),
     ALREADY_LIKED_BOARD(3002, "이미 좋아요가 눌린 게시글입니다."),
-    NOT_YET_LIKED_BOARD(3003, "아직 좋아요를 누르지 않은 게시글입니다.");
+    NOT_YET_LIKED_BOARD(3003, "아직 좋아요를 누르지 않은 게시글입니다."),
+    NO_MATCHES_PASSWORD(4000, "패스워드가 일치하지 않습니다.");
 
     private Integer code;
     private String message;
