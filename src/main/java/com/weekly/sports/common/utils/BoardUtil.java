@@ -12,7 +12,7 @@ public class BoardUtil {
         }
 
         TimeZone koreaTimeZone = TimeZone.getTimeZone("Asia/Seoul");
-        timestamp.setTime(koreaTimeZone.getRawOffset());
+        timestamp.setTime(timestamp.getTime() + koreaTimeZone.getRawOffset());
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp);
     }
 }
