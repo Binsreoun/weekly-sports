@@ -8,6 +8,7 @@ import com.weekly.sports.common.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -56,7 +57,8 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests((authorizeHttpRequests) ->
             authorizeHttpRequests
-                .requestMatchers("/v1/users/**").permitAll() //
+                .requestMatchers("/v1/users/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/v1/boards/**").permitAll()
                 .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
