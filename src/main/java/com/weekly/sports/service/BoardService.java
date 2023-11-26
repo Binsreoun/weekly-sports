@@ -20,6 +20,8 @@ import com.weekly.sports.model.entity.CommentEntity;
 import com.weekly.sports.model.entity.UserEntity;
 import com.weekly.sports.repository.BoardRepository;
 import com.weekly.sports.repository.UserRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.sql.Timestamp;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,9 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+
+    @PersistenceContext
+    private final EntityManager entityManager;
 
     //게시글 작성service
     public BoardSaveRes addBoard(BoardAddRequestDto requestDto) {
@@ -74,14 +79,17 @@ public class BoardService {
             requestDto.getBoardId(), requestDto.getUserId());
         BoardValidator.validate(prevBoard);
 
-        return BoardServiceMapper.INSTANCE.toBoardUpdateRes(
-            boardRepository.save(BoardEntity.builder()
-                .boardId(prevBoard.getBoardId())
-                .title(requestDto.getTitle())
-                .content(requestDto.getContent())
-                .visit(prevBoard.getVisit())
-                .userEntity(prevBoard.getUserEntity())
-                .build()));
+        boardRepository.save(BoardEntity.builder()
+            .boardId(prevBoard.getBoardId())
+            .title(requestDto.getTitle())
+            .content(requestDto.getContent())
+            .visit(prevBoard.getVisit())
+            .userEntity(prevBoard.getUserEntity())
+            .build());
+        entityManager.clear();
+
+        BoardEntity board = boardRepository.findByBoardId(requestDto.getBoardId());
+        return BoardServiceMapper.INSTANCE.toBoardUpdateRes(board);
     }
 
     //게시글 삭제 service
@@ -124,6 +132,7 @@ public class BoardService {
         @Mapping(source = "userEntity", target = "username")
         BoardSaveRes toBoardSaveRes(BoardEntity board);
 
+        @Mapping(source = "commentEntities", target = "commentReses")
         @Mapping(source = "createTimestamp", target = "createTimestamp")
         @Mapping(source = "userEntity", target = "username")
         BoardUpdateRes toBoardUpdateRes(BoardEntity board);
