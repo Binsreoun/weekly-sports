@@ -52,7 +52,7 @@ public class UserController {
         HttpServletResponse response) {
         String socialLogin = userService.socialLogin(code, registrationId, response);
         return RestResponse.success(
-            LoginRes.builder().name("googleLogin").text(socialLogin).build());
+            LoginRes.builder().name("googleLogin").token(socialLogin).build());
     }
 
     @GetMapping

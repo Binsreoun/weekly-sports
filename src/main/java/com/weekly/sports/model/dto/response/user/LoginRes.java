@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class LoginRes {
 
     private String name;
-    private String text;
+    private String token;
 }
