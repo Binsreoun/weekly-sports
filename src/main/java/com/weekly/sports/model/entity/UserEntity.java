@@ -1,5 +1,6 @@
 package com.weekly.sports.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -37,4 +38,24 @@ public class UserEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "followingUserId", cascade = CascadeType.ALL)
     private List<FollowEntity> followEntities;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "followerUserId", cascade = CascadeType.ALL)
+    private List<FollowEntity> followerEntities;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<BoardEntity> boardEntities;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<CommentEntity> commentEntities;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    private List<BoardLikeEntity> boardLikeEntities;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    private List<CommentLikeEntity> commentLikeEntities;
 }
