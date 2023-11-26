@@ -11,11 +11,13 @@ public class BoardResponseDto {
     private String title;
     private String content;
     private Timestamp createTimestamp;
+    private String username;
 
     public BoardResponseDto(BoardEntity saveBoard) {
         this.boardId = saveBoard.getBoardId();
         this.title = saveBoard.getTitle();
         this.content = saveBoard.getContent();
         this.createTimestamp = saveBoard.getCreateTimestamp();
+        this.username = saveBoard.getUserEntity().getUsername();
     }
 }

@@ -1,13 +1,20 @@
 package com.weekly.sports.service;
 
-import com.weekly.sports.model.dto.request.CommentRequestDTO;
-import com.weekly.sports.model.dto.response.CommentResponseDTO;
+import com.weekly.sports.common.validator.BoardValidator;
+import com.weekly.sports.common.validator.CommentValidator;
+import com.weekly.sports.common.validator.UserValidator;
+import com.weekly.sports.model.dto.request.CommentDeleteReq;
+import com.weekly.sports.model.dto.request.CommentSaveReq;
+import com.weekly.sports.model.dto.request.CommentUpdateReq;
+import com.weekly.sports.model.dto.response.CommentDeleteRes;
+import com.weekly.sports.model.dto.response.CommentSaveRes;
+import com.weekly.sports.model.dto.response.CommentUpdateRes;
 import com.weekly.sports.model.entity.BoardEntity;
 import com.weekly.sports.model.entity.CommentEntity;
 import com.weekly.sports.model.entity.UserEntity;
 import com.weekly.sports.repository.BoardRepository;
 import com.weekly.sports.repository.CommentRepository;
-import java.util.concurrent.RejectedExecutionException;
+import com.weekly.sports.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,47 +25,44 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
+    private final UserRepository userRepository;
 
-    public CommentResponseDTO createComment(CommentRequestDTO dto, UserEntity user) {
-        BoardEntity board = boardRepository.findByBoardId(dto.getTodoId());
-        CommentEntity comment = CommentEntity.builder()
-            .content(dto.getText())
+    public CommentSaveRes createComment(CommentSaveReq dto) {
+        UserEntity user = userRepository.findByUserId(dto.getUserId());
+        UserValidator.validator(user);
+
+        BoardEntity board = boardRepository.findByBoardId(dto.getBoardId());
+        BoardValidator.validate(board);
+
+        commentRepository.save(CommentEntity.builder()
+            .content(dto.getContent())
             .boardEntity(board)
             .userEntity(user)
-            .build();
-
-        commentRepository.save(comment);
-        return new CommentResponseDTO();
+            .build());
+        return new CommentSaveRes();
     }
 
 
     @Transactional
-    public CommentResponseDTO updateComment(
-        Long commentId, CommentRequestDTO commentRequestDTO, UserEntity user) {
-        CommentEntity comment = getUserComment(commentId, user);
+    public CommentUpdateRes updateComment(CommentUpdateReq commentUpdateReq) {
+        CommentEntity comment = commentRepository.findByCommentIdAndUserEntityUserId(
+            commentUpdateReq.getCommentId(), commentUpdateReq.getUserId());
+        CommentValidator.validator(comment);
 
         commentRepository.save(CommentEntity.builder()
-            .CommentId(commentId)
-            .content(commentRequestDTO.getText())
+            .commentId(commentUpdateReq.getCommentId())
+            .content(commentUpdateReq.getContent())
             .userEntity(comment.getUserEntity())
             .boardEntity(comment.getBoardEntity())
             .build());
-        return new CommentResponseDTO();
+        return new CommentUpdateRes();
     }
 
-    public CommentResponseDTO deleteComment(Long commentId, UserEntity user) {
-        CommentEntity comment = getUserComment(commentId, user);
+    public CommentDeleteRes deleteComment(CommentDeleteReq commentDeleteReq) {
+        CommentEntity comment = commentRepository.findByCommentIdAndUserEntityUserId(
+            commentDeleteReq.getCommentId(), commentDeleteReq.getUserId());
+        CommentValidator.validator(comment);
         commentRepository.delete(comment);
-        return new CommentResponseDTO();
-    }
-
-    private CommentEntity getUserComment(Long commentId, UserEntity user) {
-        CommentEntity comment = commentRepository.findById(commentId)
-            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글 ID입니다."));
-
-        if (!user.getUserId().equals(comment.getUserEntity().getUserId())) {
-            throw new RejectedExecutionException("작성자만 수정할 수 있습니다.");
-        }
-        return comment;
+        return new CommentDeleteRes();
     }
 }

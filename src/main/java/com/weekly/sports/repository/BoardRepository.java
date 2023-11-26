@@ -10,4 +10,6 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
     List<BoardEntity> findAllByOrderByCreateTimestampDesc();
 
     BoardEntity findByBoardId(Long boardId);
+
+    BoardEntity findByBoardIdAndUserEntityUserId(Long boardId, Long userId);
 }
