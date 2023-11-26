@@ -1,15 +1,18 @@
 package com.weekly.sports.service;
 
+import static com.weekly.sports.common.meta.ResultCode.NO_MATCHES_PASSWORD;
 import static com.weekly.sports.common.meta.ResultCode.SYSTEM_ERROR;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.weekly.sports.common.exception.GlobalException;
 import com.weekly.sports.common.jwt.JwtUtil;
 import com.weekly.sports.common.validator.UserValidator;
+import com.weekly.sports.model.dto.request.CheckUserReq;
 import com.weekly.sports.model.dto.request.FollowReq;
 import com.weekly.sports.model.dto.request.UserProfileReq;
 import com.weekly.sports.model.dto.request.UserSignUpDto;
 import com.weekly.sports.model.dto.request.UserUpdateReq;
+import com.weekly.sports.model.dto.response.CheckUserRes;
 import com.weekly.sports.model.dto.response.FollowRes;
 import com.weekly.sports.model.dto.response.UserProfileRes;
 import com.weekly.sports.model.dto.response.UserUpdateRes;
@@ -146,6 +149,16 @@ public class UserService {
             .social(prevUser.getSocial())
             .build());
         return new UserUpdateRes();
+    }
+
+    public CheckUserRes checkPassword(CheckUserReq checkUserReq) {
+        UserEntity user = getUserEntityByUserId(checkUserReq.getUserId());
+        UserValidator.validator(user);
+        if (!passwordEncoder.matches(checkUserReq.getPassword(), user.getPassword())) {
+            throw new GlobalException(NO_MATCHES_PASSWORD);
+        }
+
+        return new CheckUserRes();
     }
 
     public FollowRes followUser(FollowReq followReq) {

@@ -3,10 +3,12 @@ package com.weekly.sports.controller;
 import com.weekly.sports.common.meta.ResultCode;
 import com.weekly.sports.common.response.RestResponse;
 import com.weekly.sports.common.security.UserDetailsImpl;
+import com.weekly.sports.model.dto.request.CheckUserReq;
 import com.weekly.sports.model.dto.request.FollowReq;
 import com.weekly.sports.model.dto.request.UserProfileReq;
 import com.weekly.sports.model.dto.request.UserSignUpDto;
 import com.weekly.sports.model.dto.request.UserUpdateReq;
+import com.weekly.sports.model.dto.response.CheckUserRes;
 import com.weekly.sports.model.dto.response.FollowRes;
 import com.weekly.sports.model.dto.response.LoginRes;
 import com.weekly.sports.model.dto.response.SignUpRes;
@@ -75,5 +77,13 @@ public class UserController {
         @RequestBody UserUpdateReq userUpdateReq) {
         userUpdateReq.setUserId(userDetails.getUser().getUserId());
         return RestResponse.success(userService.updateUser(userUpdateReq));
+    }
+
+    @PostMapping("/check")
+    public RestResponse<CheckUserRes> checkPassword(
+        @AuthenticationPrincipal UserDetailsImpl userDetails,
+        @RequestBody CheckUserReq checkUserReq) {
+        checkUserReq.setUserId(userDetails.getUser().getUserId());
+        return RestResponse.success(userService.checkPassword(checkUserReq));
     }
 }
