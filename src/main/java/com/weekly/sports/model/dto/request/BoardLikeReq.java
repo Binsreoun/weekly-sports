@@ -11,9 +11,9 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FollowReq {
+public class BoardLikeReq {
 
-    private Long followingUserId;
-    private Long followerUserId;
-    private Boolean isFollow;
+    private Long userId;
+    private Long boardId;
+    private Boolean isLike;
 }

@@ -1,6 +1,6 @@
 package com.weekly.sports.service;
 
-import static com.weekly.sports.common.meta.ResultCode.EXIST_USER;
+import static com.weekly.sports.common.meta.ResultCode.SYSTEM_ERROR;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.weekly.sports.common.exception.GlobalException;
@@ -9,8 +9,10 @@ import com.weekly.sports.common.validator.UserValidator;
 import com.weekly.sports.model.dto.request.FollowReq;
 import com.weekly.sports.model.dto.request.UserProfileReq;
 import com.weekly.sports.model.dto.request.UserSignUpDto;
+import com.weekly.sports.model.dto.request.UserUpdateReq;
 import com.weekly.sports.model.dto.response.FollowRes;
 import com.weekly.sports.model.dto.response.UserProfileRes;
+import com.weekly.sports.model.dto.response.UserUpdateRes;
 import com.weekly.sports.model.entity.FollowEntity;
 import com.weekly.sports.model.entity.UserEntity;
 import com.weekly.sports.model.entity.UserSocialEnum;
@@ -31,6 +33,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -49,9 +52,9 @@ public class UserService {
 
 
     public void signUp(UserSignUpDto userSignUpDto) {
-
-        if (userRepository.findByEmail(userSignUpDto.getEmail()) != null) {
-            throw new GlobalException(EXIST_USER);
+        List<UserEntity> prevUserList = userRepository.findByEmail(userSignUpDto.getEmail());
+        if (!CollectionUtils.isEmpty(prevUserList)) {
+            throw new GlobalException(SYSTEM_ERROR);
         }
 
         UserEntity user = UserEntity.builder()
@@ -129,6 +132,20 @@ public class UserService {
         UserEntity userEntity = userRepository.findByUserId(userProfileReq.getUserId());
         UserValidator.validator(userEntity);
         return UserServiceMapper.INSTANCE.toUserProfileRes(userEntity);
+    }
+
+    public UserUpdateRes updateUser(UserUpdateReq userUpdateReq) {
+        UserEntity prevUser = userRepository.findByUserId(userUpdateReq.getUserId());
+        UserValidator.validator(prevUser);
+        userRepository.save(UserEntity.builder()
+            .userId(prevUser.getUserId())
+            .email(prevUser.getEmail())
+            .username(userUpdateReq.getUsername())
+            .password(passwordEncoder.encode(userUpdateReq.getPassword()))
+            .introduction(userUpdateReq.getIntroduction())
+            .social(prevUser.getSocial())
+            .build());
+        return new UserUpdateRes();
     }
 
     public FollowRes followUser(FollowReq followReq) {

@@ -11,9 +11,10 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FollowReq {
+public class UserUpdateReq {
 
-    private Long followingUserId;
-    private Long followerUserId;
-    private Boolean isFollow;
+    private Long userId;
+    private String username;
+    private String password;
+    private String introduction;
 }

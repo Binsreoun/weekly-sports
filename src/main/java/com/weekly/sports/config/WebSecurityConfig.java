@@ -1,5 +1,6 @@
 package com.weekly.sports.config;
 
+
 import com.weekly.sports.common.filter.JwtAuthenticationFilter;
 import com.weekly.sports.common.filter.JwtAuthorizationFilter;
 import com.weekly.sports.common.jwt.JwtUtil;
@@ -55,7 +56,7 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests((authorizeHttpRequests) ->
             authorizeHttpRequests
-                .requestMatchers("/v1/user/**").permitAll() //
+                .requestMatchers("/v1/users/**").permitAll() //
                 .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
