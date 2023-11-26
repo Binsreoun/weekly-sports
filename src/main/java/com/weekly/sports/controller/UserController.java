@@ -10,10 +10,11 @@ import com.weekly.sports.model.dto.response.FollowRes;
 import com.weekly.sports.model.dto.response.SampleRes;
 import com.weekly.sports.model.dto.response.UserProfileRes;
 import com.weekly.sports.model.dto.response.UserUpdateRes;
+import com.weekly.sports.security.UserDetailsImpl;
 import com.weekly.sports.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
-import javax.naming.spi.DirStateFactory.Result;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,12 +26,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1")
+@RequestMapping("/v1/users")
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/user/signup")
+    @PostMapping("/signup")
     public RestResponse<SampleRes> signUp(@RequestBody UserSignUpDto userSignUpDto) {
         try {
             userService.signUp(userSignUpDto);
@@ -41,7 +42,7 @@ public class UserController {
             SampleRes.builder().name("sign-up").text("회원가입 성공입니다.").build());
     }
 
-    @GetMapping("/user/login/oauth/{registrationId}")
+    @GetMapping("/login/oauth/{registrationId}")
     public RestResponse<SampleRes> googleLogin(@RequestParam String code,
         @PathVariable String registrationId,
         HttpServletResponse response) {
@@ -50,13 +51,16 @@ public class UserController {
             SampleRes.builder().name("googleLogin").text(socialLogin).build());
     }
 
-    @GetMapping("/user")
+    @GetMapping
     public RestResponse<UserProfileRes> getUserProfile(@RequestBody UserProfileReq userProfileReq) {
         return RestResponse.success(userService.getUserProfile(userProfileReq));
     }
 
-    @PostMapping("/user/follow")
-    public RestResponse<FollowRes> followUser(@RequestBody FollowReq followReq) {
+    @PostMapping("/follow")
+    public RestResponse<FollowRes> followUser(
+        @AuthenticationPrincipal UserDetailsImpl userDetails,
+        @RequestBody FollowReq followReq) {
+        followReq.setFollowerUserId(userDetails.getUser().getUserId());
         if (followReq.getIsFollow()) {
             return RestResponse.success(userService.followUser(followReq));
         } else {
@@ -64,8 +68,11 @@ public class UserController {
         }
     }
 
-    @PutMapping("/user")
-    public RestResponse<UserUpdateRes> updateUser(@RequestBody UserUpdateReq userUpdateReq) {
+    @PutMapping
+    public RestResponse<UserUpdateRes> updateUser(
+        @AuthenticationPrincipal UserDetailsImpl userDetails,
+        @RequestBody UserUpdateReq userUpdateReq) {
+        userUpdateReq.setUserId(userDetails.getUser().getUserId());
         return RestResponse.success(userService.updateUser(userUpdateReq));
     }
 }

@@ -33,6 +33,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -51,8 +52,8 @@ public class UserService {
 
 
     public void signUp(UserSignUpDto userSignUpDto) {
-
-        if (userRepository.findByEmail(userSignUpDto.getEmail()) != null) {
+        List<UserEntity> prevUserList = userRepository.findByEmail(userSignUpDto.getEmail());
+        if (!CollectionUtils.isEmpty(prevUserList)) {
             throw new GlobalException(SYSTEM_ERROR);
         }
 
