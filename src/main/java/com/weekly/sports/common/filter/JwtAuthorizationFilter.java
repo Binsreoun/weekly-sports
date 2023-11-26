@@ -1,7 +1,10 @@
-package com.weekly.sports.filter;
+package com.weekly.sports.common.filter;
 
-import com.weekly.sports.security.UserDetailsServiceImpl;
-import com.weekly.sports.security.jwt.JwtUtil;
+import static com.weekly.sports.common.meta.ResultCode.JWT_CLAIMS_IS_EMPTY;
+
+import com.weekly.sports.common.exception.GlobalException;
+import com.weekly.sports.common.jwt.JwtUtil;
+import com.weekly.sports.common.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -35,19 +38,14 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         String tokenValue = jwtUtil.getJwtFromHeader(req);
 
         if (StringUtils.hasText(tokenValue)) {
-
-            if (!jwtUtil.validateToken(tokenValue)) {
-                log.error("Token Error");
-                return;
-            }
+            jwtUtil.validateToken(tokenValue);
 
             Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
 
             try {
                 setAuthentication(info.getSubject());
             } catch (Exception e) {
-                log.error(e.getMessage());
-                return;
+                throw new GlobalException(JWT_CLAIMS_IS_EMPTY);
             }
         }
 

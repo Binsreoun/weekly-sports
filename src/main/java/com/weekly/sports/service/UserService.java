@@ -1,9 +1,10 @@
 package com.weekly.sports.service;
 
-import static com.weekly.sports.common.meta.ResultCode.SYSTEM_ERROR;
+import static com.weekly.sports.common.meta.ResultCode.EXIST_USER;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.weekly.sports.common.exception.GlobalException;
+import com.weekly.sports.common.jwt.JwtUtil;
 import com.weekly.sports.common.validator.UserValidator;
 import com.weekly.sports.model.dto.request.FollowReq;
 import com.weekly.sports.model.dto.request.UserProfileReq;
@@ -15,7 +16,6 @@ import com.weekly.sports.model.entity.UserEntity;
 import com.weekly.sports.model.entity.UserSocialEnum;
 import com.weekly.sports.repository.FollowRepository;
 import com.weekly.sports.repository.UserRepository;
-import com.weekly.sports.security.jwt.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +51,7 @@ public class UserService {
     public void signUp(UserSignUpDto userSignUpDto) {
 
         if (userRepository.findByEmail(userSignUpDto.getEmail()) != null) {
-            throw new GlobalException(SYSTEM_ERROR);
+            throw new GlobalException(EXIST_USER);
         }
 
         UserEntity user = UserEntity.builder()

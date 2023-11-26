@@ -1,9 +1,9 @@
-package com.weekly.sports.filter;
+package com.weekly.sports.common.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.weekly.sports.common.jwt.JwtUtil;
+import com.weekly.sports.common.security.UserDetailsImpl;
 import com.weekly.sports.model.dto.request.LoginRequestDto;
-import com.weekly.sports.security.UserDetailsImpl;
-import com.weekly.sports.security.jwt.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,7 +21,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-        setFilterProcessesUrl("/v1/user/login");
+        setFilterProcessesUrl("/v1/users/login");
     }
 
     @Override

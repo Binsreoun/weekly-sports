@@ -1,5 +1,8 @@
-package com.weekly.sports.security.jwt;
+package com.weekly.sports.common.jwt;
 
+import static com.weekly.sports.common.meta.ResultCode.NOT_EXIST_USER;
+
+import com.weekly.sports.common.exception.GlobalException;
 import com.weekly.sports.common.validator.TokenValidator;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -57,7 +60,7 @@ public class JwtUtil {
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
             return bearerToken.substring(7);
         }
-        return null;
+        throw new GlobalException(NOT_EXIST_USER);
     }
 
     // 토큰 검증
