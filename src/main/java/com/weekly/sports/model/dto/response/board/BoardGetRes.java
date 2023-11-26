@@ -18,5 +18,6 @@ public class BoardGetRes {
     private String content;
     private String createTimestamp;
     private String username;
+    private int visit;
     private List<CommentRes> commentReses;
 }

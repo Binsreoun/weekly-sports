@@ -55,10 +55,16 @@ public class BoardService {
                 .build()));
     }
 
-    //게시글 단일 조회 service
+    @Transactional
     public BoardGetRes getBoard(Long boardId) {
-        //Id없는 경우
-        return BoardServiceMapper.INSTANCE.toBoardGetRes(getBoardEntity(boardId));
+        BoardEntity board = getBoardEntity(boardId);
+        addVisitBoard(board);
+        return BoardServiceMapper.INSTANCE.toBoardGetRes(board);
+    }
+
+    @Transactional
+    public void addVisitBoard(BoardEntity board) {
+        board.setVisit(board.getVisit() + 1);
     }
 
     //게시글 전체 조회 service
