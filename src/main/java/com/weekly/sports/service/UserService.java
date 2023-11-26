@@ -74,11 +74,14 @@ public class UserService {
         String accessToken = getAccessToken(code, registrationId);
         JsonNode userResourceNode = getUserResource(accessToken, registrationId);
         String email = userResourceNode.get("email").asText();
+        int num = email.indexOf("@");
+        String name = email.substring(0, num);
 
         if (userRepository.findByEmail(email).isEmpty()) {
             UserEntity user = UserEntity.builder()
                 .email(email)
                 .social(UserSocialEnum.GOOGLE)
+                .username(name)
                 .build();
             log.info(user.getEmail());
             userRepository.save(user);
