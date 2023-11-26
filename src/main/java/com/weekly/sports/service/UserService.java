@@ -1,6 +1,9 @@
 package com.weekly.sports.service;
 
+import static com.weekly.sports.common.meta.ResultCode.SYSTEM_ERROR;
+
 import com.fasterxml.jackson.databind.JsonNode;
+import com.weekly.sports.common.exception.GlobalException;
 import com.weekly.sports.common.validator.UserValidator;
 import com.weekly.sports.model.dto.request.FollowReq;
 import com.weekly.sports.model.dto.request.UserProfileReq;
@@ -38,16 +41,17 @@ import org.springframework.web.client.RestTemplate;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final FollowRepository followRepository;
     private final PasswordEncoder passwordEncoder;
     private final Environment env;
     private final JwtUtil jwtUtil;
     private final RestTemplate restTemplate = new RestTemplate();
+    private final FollowRepository followRepository;
+
 
     public void signUp(UserSignUpDto userSignUpDto) {
 
-        if (userRepository.findByEmail(userSignUpDto.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+        if (userRepository.findByEmail(userSignUpDto.getEmail()) != null) {
+            throw new GlobalException(SYSTEM_ERROR);
         }
 
         UserEntity user = UserEntity.builder()

@@ -10,6 +10,7 @@ import com.weekly.sports.model.dto.response.SampleRes;
 import com.weekly.sports.model.dto.response.UserProfileRes;
 import com.weekly.sports.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
+import javax.naming.spi.DirStateFactory.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
