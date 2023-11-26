@@ -6,6 +6,7 @@ import com.weekly.sports.model.dto.request.board.BoardAddRequestDto;
 import com.weekly.sports.model.dto.request.board.BoardDeleteReq;
 import com.weekly.sports.model.dto.request.board.BoardLikeReq;
 import com.weekly.sports.model.dto.request.board.BoardUpdateRequestDto;
+import com.weekly.sports.model.dto.request.board.FeedBoardReq;
 import com.weekly.sports.model.dto.response.board.BoardDeleteRes;
 import com.weekly.sports.model.dto.response.board.BoardGetRes;
 import com.weekly.sports.model.dto.response.board.BoardGetResList;
@@ -52,6 +53,14 @@ public class BoardController {
     @GetMapping
     public RestResponse<BoardGetResList> getBoards() {
         return RestResponse.success(boardService.getBoards());
+    }
+
+    @GetMapping("/feed")
+    public RestResponse<BoardGetResList> getFeedBoards(
+        @AuthenticationPrincipal UserDetailsImpl userDetails,
+        @RequestBody FeedBoardReq feedBoardReq) {
+        feedBoardReq.setUserId(userDetails.getUser().getUserId());
+        return RestResponse.success(boardService.getFeedBoards(feedBoardReq));
     }
 
     //게시글 수정
