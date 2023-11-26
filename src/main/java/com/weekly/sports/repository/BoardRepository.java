@@ -8,4 +8,6 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
 
     //최신생성 기준 게시판 전체 조회
     List<BoardEntity> findAllByOrderByCreateTimestampDesc();
+
+    BoardEntity findByBoardId(Long boardId);
 }
