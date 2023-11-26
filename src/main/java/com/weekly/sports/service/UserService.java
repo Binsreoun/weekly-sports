@@ -87,11 +87,11 @@ public class UserService {
             userRepository.save(user);
             String token = jwtUtil.createToken(email);
             response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
-            return "회원가입 성공 입니다.";
+            return accessToken;
         }
         String token = jwtUtil.createToken(email);
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
-        return "로그인 성공 입니다.";
+        return accessToken;
     }
 
     private String getAccessToken(String authorizationCode, String registrationId) {
