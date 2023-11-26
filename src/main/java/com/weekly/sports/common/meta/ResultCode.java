@@ -11,6 +11,8 @@ public enum ResultCode {
     NOT_YET_FOLLOWED(3001, "아직 팔로우되지 않은 유저입니다."),
     ALREADY_LIKED_BOARD(3002, "이미 좋아요가 눌린 게시글입니다."),
     NOT_YET_LIKED_BOARD(3003, "아직 좋아요를 누르지 않은 게시글입니다."),
+    ALREADY_LIKED_COMMENT(3004, "이미 좋아요가 눌린 댓글입니다."),
+    NOT_YET_LIKED_COMMENT(3005, "아직 좋아요를 누르지 않은 댓글입니다."),
     EXPIRED_JWT_TOKEN(4000, "만료된 JWT token 입니다."),
     INVALID_JWT_SIGNATURE(4001, "유효하지 않는 JWT 서명 입니다."),
     UNSUPPORTED_JWT_TOKEN(4002, "지원되지 않는 JWT 토큰 입니다."),
