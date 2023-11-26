@@ -36,7 +36,6 @@ public class CommentService {
     public CommentResponseDTO updateComment(
         Long commentId, CommentRequestDTO commentRequestDTO, UserEntity user) {
         CommentEntity comment = getUserComment(commentId, user);
-        // TODO ADD validator
 
         commentRepository.save(CommentEntity.builder()
             .CommentId(commentId)

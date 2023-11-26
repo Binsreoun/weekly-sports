@@ -5,6 +5,7 @@ import static com.weekly.sports.common.meta.ResultCode.SYSTEM_ERROR;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.weekly.sports.common.exception.GlobalException;
+import com.weekly.sports.common.jwt.JwtUtil;
 import com.weekly.sports.common.validator.UserValidator;
 import com.weekly.sports.model.dto.request.CheckUserReq;
 import com.weekly.sports.model.dto.request.FollowReq;
@@ -20,7 +21,6 @@ import com.weekly.sports.model.entity.UserEntity;
 import com.weekly.sports.model.entity.UserSocialEnum;
 import com.weekly.sports.repository.FollowRepository;
 import com.weekly.sports.repository.UserRepository;
-import com.weekly.sports.security.jwt.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.weekly.sports.security;
+package com.weekly.sports.common.security;
 
 
 import com.weekly.sports.model.entity.UserEntity;

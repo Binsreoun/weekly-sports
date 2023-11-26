@@ -1,9 +1,10 @@
 package com.weekly.sports.config;
 
-import com.weekly.sports.filter.JwtAuthenticationFilter;
-import com.weekly.sports.filter.JwtAuthorizationFilter;
-import com.weekly.sports.security.UserDetailsServiceImpl;
-import com.weekly.sports.security.jwt.JwtUtil;
+
+import com.weekly.sports.common.filter.JwtAuthenticationFilter;
+import com.weekly.sports.common.filter.JwtAuthorizationFilter;
+import com.weekly.sports.common.jwt.JwtUtil;
+import com.weekly.sports.common.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

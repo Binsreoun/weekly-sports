@@ -2,9 +2,9 @@ package com.weekly.sports.controller;
 
 
 import com.weekly.sports.common.response.RestResponse;
+import com.weekly.sports.common.security.UserDetailsImpl;
 import com.weekly.sports.model.dto.request.CommentRequestDTO;
 import com.weekly.sports.model.dto.response.CommentResponseDTO;
-import com.weekly.sports.security.UserDetailsImpl;
 import com.weekly.sports.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
