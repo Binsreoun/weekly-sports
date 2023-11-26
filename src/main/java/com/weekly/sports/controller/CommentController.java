@@ -3,13 +3,16 @@ package com.weekly.sports.controller;
 
 import com.weekly.sports.common.response.RestResponse;
 import com.weekly.sports.common.security.UserDetailsImpl;
-import com.weekly.sports.model.dto.request.CommentRequestDTO;
-import com.weekly.sports.model.dto.response.CommentResponseDTO;
+import com.weekly.sports.model.dto.request.CommentDeleteReq;
+import com.weekly.sports.model.dto.request.CommentSaveReq;
+import com.weekly.sports.model.dto.request.CommentUpdateReq;
+import com.weekly.sports.model.dto.response.CommentDeleteRes;
+import com.weekly.sports.model.dto.response.CommentSaveRes;
+import com.weekly.sports.model.dto.response.CommentUpdateRes;
 import com.weekly.sports.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,27 +27,27 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public RestResponse<CommentResponseDTO> postComment(
-        @RequestBody CommentRequestDTO commentRequestDTO,
+    public RestResponse<CommentSaveRes> postComment(
+        @RequestBody CommentSaveReq commentSaveReq,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return RestResponse.success(
-            commentService.createComment(commentRequestDTO, userDetails.getUser()));
+        commentSaveReq.setUserId(userDetails.getUser().getUserId());
+        return RestResponse.success(commentService.createComment(commentSaveReq));
     }
 
-    @PutMapping("/{commentId}")
-    public RestResponse<CommentResponseDTO> putComment(
-        @PathVariable Long commentId,
-        @RequestBody CommentRequestDTO commentRequestDTO,
+    @PutMapping
+    public RestResponse<CommentUpdateRes> putComment(
+        @RequestBody CommentUpdateReq commentUpdateReq,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return RestResponse.success(
-            commentService.updateComment(commentId, commentRequestDTO, userDetails.getUser()));
+        commentUpdateReq.setUserId(userDetails.getUser().getUserId());
+        return RestResponse.success(commentService.updateComment(commentUpdateReq));
     }
 
-    @DeleteMapping("/{commentId}")
-    public RestResponse<CommentResponseDTO> deleteComment(
-        @PathVariable Long commentId,
-        @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return RestResponse.success(commentService.deleteComment(commentId, userDetails.getUser()));
+    @DeleteMapping
+    public RestResponse<CommentDeleteRes> deleteComment(
+        @AuthenticationPrincipal UserDetailsImpl userDetails,
+        @RequestBody CommentDeleteReq commentDeleteReq) {
+        commentDeleteReq.setUserId(userDetails.getUser().getUserId());
+        return RestResponse.success(commentService.deleteComment(commentDeleteReq));
     }
 
 }

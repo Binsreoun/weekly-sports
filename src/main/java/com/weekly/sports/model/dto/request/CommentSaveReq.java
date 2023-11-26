@@ -5,10 +5,9 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class BoardUpdateRequestDto {
+public class CommentSaveReq {
 
     private Long boardId;
-    private String title;
     private String content;
     private Long userId;
 }

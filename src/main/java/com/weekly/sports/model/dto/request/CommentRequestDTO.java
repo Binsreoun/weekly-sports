@@ -10,4 +10,5 @@ public class CommentRequestDTO {
 
     private Long todoId;
     private String text;
+    private Long userId;
 }
