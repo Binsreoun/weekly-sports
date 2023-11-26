@@ -9,6 +9,7 @@ import com.weekly.sports.common.validator.UserValidator;
 import com.weekly.sports.model.dto.request.board.BoardAddRequestDto;
 import com.weekly.sports.model.dto.request.board.BoardDeleteReq;
 import com.weekly.sports.model.dto.request.board.BoardUpdateRequestDto;
+import com.weekly.sports.model.dto.request.board.FeedBoardReq;
 import com.weekly.sports.model.dto.response.board.BoardDeleteRes;
 import com.weekly.sports.model.dto.response.board.BoardGetRes;
 import com.weekly.sports.model.dto.response.board.BoardGetResList;
@@ -64,6 +65,16 @@ public class BoardService {
     public BoardGetResList getBoards() {
         List<BoardGetRes> boardGetReses = BoardServiceMapper.INSTANCE.toBoardGetReses(
             boardRepository.findAllByOrderByCreateTimestampDesc());
+
+        return BoardGetResList.builder()
+            .boardGetReses(boardGetReses)
+            .total(boardGetReses.size())
+            .build();
+    }
+
+    public BoardGetResList getFeedBoards(FeedBoardReq feedBoardReq) {
+        List<BoardGetRes> boardGetReses = BoardServiceMapper.INSTANCE.toBoardGetReses(
+            boardRepository.findAllFeedBoards(feedBoardReq.getUserId()));
 
         return BoardGetResList.builder()
             .boardGetReses(boardGetReses)
