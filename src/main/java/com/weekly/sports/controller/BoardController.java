@@ -2,16 +2,18 @@ package com.weekly.sports.controller;
 
 import com.weekly.sports.common.response.RestResponse;
 import com.weekly.sports.common.security.UserDetailsImpl;
-import com.weekly.sports.model.dto.request.BoardAddRequestDto;
-import com.weekly.sports.model.dto.request.BoardDeleteReq;
-import com.weekly.sports.model.dto.request.BoardLikeReq;
-import com.weekly.sports.model.dto.request.BoardUpdateRequestDto;
-import com.weekly.sports.model.dto.response.BoardDeleteRes;
-import com.weekly.sports.model.dto.response.BoardLikeRes;
-import com.weekly.sports.model.dto.response.BoardResponseDto;
+import com.weekly.sports.model.dto.request.board.BoardAddRequestDto;
+import com.weekly.sports.model.dto.request.board.BoardDeleteReq;
+import com.weekly.sports.model.dto.request.board.BoardLikeReq;
+import com.weekly.sports.model.dto.request.board.BoardUpdateRequestDto;
+import com.weekly.sports.model.dto.response.board.BoardDeleteRes;
+import com.weekly.sports.model.dto.response.board.BoardGetRes;
+import com.weekly.sports.model.dto.response.board.BoardGetResList;
+import com.weekly.sports.model.dto.response.board.BoardLikeRes;
+import com.weekly.sports.model.dto.response.board.BoardSaveRes;
+import com.weekly.sports.model.dto.response.board.BoardUpdateRes;
 import com.weekly.sports.service.BoardLikeService;
 import com.weekly.sports.service.BoardService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +35,7 @@ public class BoardController {
 
     //게시글 작성
     @PostMapping
-    public RestResponse<BoardResponseDto> addBoard(
+    public RestResponse<BoardSaveRes> addBoard(
         @AuthenticationPrincipal UserDetailsImpl userDetails,
         @RequestBody BoardAddRequestDto requestDto) {
         requestDto.setUserId(userDetails.getUser().getUserId());
@@ -42,19 +44,19 @@ public class BoardController {
 
     //게시글 단일 조회
     @GetMapping("/{boardId}")
-    public RestResponse<BoardResponseDto> getBoard(@PathVariable Long boardId) {
+    public RestResponse<BoardGetRes> getBoard(@PathVariable Long boardId) {
         return RestResponse.success(boardService.getBoard(boardId));
     }
 
     //게시글 전체 조회
     @GetMapping
-    public RestResponse<List<BoardResponseDto>> getBoards() {
+    public RestResponse<BoardGetResList> getBoards() {
         return RestResponse.success(boardService.getBoards());
     }
 
     //게시글 수정
     @PatchMapping
-    public RestResponse<BoardResponseDto> updateBoard(
+    public RestResponse<BoardUpdateRes> updateBoard(
         @AuthenticationPrincipal UserDetailsImpl userDetails,
         @RequestBody BoardUpdateRequestDto requestDto) {
         requestDto.setUserId(userDetails.getUser().getUserId());

@@ -2,8 +2,8 @@ package com.weekly.sports.service;
 
 import com.weekly.sports.common.validator.BoardValidator;
 import com.weekly.sports.common.validator.UserValidator;
-import com.weekly.sports.model.dto.request.BoardLikeReq;
-import com.weekly.sports.model.dto.response.BoardLikeRes;
+import com.weekly.sports.model.dto.request.board.BoardLikeReq;
+import com.weekly.sports.model.dto.response.board.BoardLikeRes;
 import com.weekly.sports.model.entity.BoardEntity;
 import com.weekly.sports.model.entity.BoardLikeEntity;
 import com.weekly.sports.model.entity.UserEntity;
