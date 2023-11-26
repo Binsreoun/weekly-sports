@@ -90,7 +90,6 @@ public class BoardService {
 
     //게시글 수정 service
     //인증 과정 빠진 상태입니다.
-    @Transactional //데이터 변경 감지시 자동으로 변경
     public BoardUpdateRes updateBoard(BoardUpdateRequestDto requestDto) {
         BoardEntity prevBoard = boardRepository.findByBoardIdAndUserEntityUserId(
             requestDto.getBoardId(), requestDto.getUserId());
