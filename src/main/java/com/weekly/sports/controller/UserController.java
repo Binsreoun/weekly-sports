@@ -5,9 +5,11 @@ import com.weekly.sports.common.response.RestResponse;
 import com.weekly.sports.model.dto.request.FollowReq;
 import com.weekly.sports.model.dto.request.UserProfileReq;
 import com.weekly.sports.model.dto.request.UserSignUpDto;
+import com.weekly.sports.model.dto.request.UserUpdateReq;
 import com.weekly.sports.model.dto.response.FollowRes;
 import com.weekly.sports.model.dto.response.SampleRes;
 import com.weekly.sports.model.dto.response.UserProfileRes;
+import com.weekly.sports.model.dto.response.UserUpdateRes;
 import com.weekly.sports.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import javax.naming.spi.DirStateFactory.Result;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,5 +62,10 @@ public class UserController {
         } else {
             return RestResponse.success(userService.unFollowUser(followReq));
         }
+    }
+
+    @PutMapping("/user")
+    public RestResponse<UserUpdateRes> updateUser(@RequestBody UserUpdateReq userUpdateReq) {
+        return RestResponse.success(userService.updateUser(userUpdateReq));
     }
 }
