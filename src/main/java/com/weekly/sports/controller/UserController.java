@@ -1,6 +1,7 @@
 package com.weekly.sports.controller;
 
-import com.weekly.sports.common.meta.ResultCode;
+import static com.weekly.sports.common.meta.ResultCode.EXIST_EMAIL;
+
 import com.weekly.sports.common.response.RestResponse;
 import com.weekly.sports.common.security.UserDetailsImpl;
 import com.weekly.sports.model.dto.request.user.CheckUserReq;
@@ -39,7 +40,7 @@ public class UserController {
         try {
             userService.signUp(userSignUpDto);
         } catch (IllegalArgumentException e) {
-            return RestResponse.error(ResultCode.SYSTEM_ERROR);
+            return RestResponse.error(EXIST_EMAIL);
         }
         return RestResponse.success(
             SignUpRes.builder().name("sign-up").text("회원가입 성공입니다.").build());

@@ -5,6 +5,7 @@ public enum ResultCode {
     SYSTEM_ERROR(1000, "알 수 없는 애러가 발생했습니다."),
     NOT_EXIST_USER(2000, "존재하지 않는 유저입니다."),
     EXIST_USER(2001, "존재하는 유저입니다."),
+    EXIST_EMAIL(2001, "존재하는 이메일입니다."),
     NOT_EXIST_BOARD(2002, "게시글이 존재하지 않거나 작성자가 아닙니다."),
     NOT_EXIST_COMMENT(2003, "댓글이 존재하지 않거나 작성자가 아닙니다."),
     ALREADY_FOLLOWED(3000, "이미 팔로우된 유저입니다."),
