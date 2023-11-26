@@ -3,12 +3,12 @@ package com.weekly.sports.controller;
 
 import com.weekly.sports.common.response.RestResponse;
 import com.weekly.sports.common.security.UserDetailsImpl;
-import com.weekly.sports.model.dto.request.CommentDeleteReq;
-import com.weekly.sports.model.dto.request.CommentSaveReq;
-import com.weekly.sports.model.dto.request.CommentUpdateReq;
-import com.weekly.sports.model.dto.response.CommentDeleteRes;
-import com.weekly.sports.model.dto.response.CommentSaveRes;
-import com.weekly.sports.model.dto.response.CommentUpdateRes;
+import com.weekly.sports.model.dto.request.comment.CommentDeleteReq;
+import com.weekly.sports.model.dto.request.comment.CommentSaveReq;
+import com.weekly.sports.model.dto.request.comment.CommentUpdateReq;
+import com.weekly.sports.model.dto.response.comment.CommentDeleteRes;
+import com.weekly.sports.model.dto.response.comment.CommentSaveRes;
+import com.weekly.sports.model.dto.response.comment.CommentUpdateRes;
 import com.weekly.sports.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

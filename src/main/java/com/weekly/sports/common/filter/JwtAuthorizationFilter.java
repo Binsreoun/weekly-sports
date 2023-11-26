@@ -3,8 +3,8 @@ package com.weekly.sports.common.filter;
 import static com.weekly.sports.common.meta.ResultCode.JWT_CLAIMS_IS_EMPTY;
 
 import com.weekly.sports.common.exception.GlobalException;
-import com.weekly.sports.common.jwt.JwtUtil;
 import com.weekly.sports.common.security.UserDetailsServiceImpl;
+import com.weekly.sports.common.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
