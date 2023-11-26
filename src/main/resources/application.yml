@@ -13,13 +13,13 @@ spring:
       google:
         client-id: 915255787613-jugqt0v9bbl7k2r6afabb5pp2bqu9r42.apps.googleusercontent.com
         client-secret: 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
-        redirect-uri: http://localhost:8080/v1/user/login/oauth/google
+        redirect-uri: https://whenwheres.com/v1/user/login/oauth/google
         token-uri: https://oauth2.googleapis.com/token
         resource-uri: https://www.googleapis.com/oauth2/v2/userinfo
         scope: profile, email
 
   jpa:
-    open-in-view: false
+    open-in-view: true
     hibernate:
       ddl-auto: validate
       naming:
@@ -38,3 +38,8 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
+
+
+jwt:
+  secret:
+    key: 7Iqk7YyM66W07YOA7L2U65Sp7YG065+9U3ByaW5n6rCV7J2Y7Yqc7YSw7LWc7JuQ67mI7J6F64uI64ukLg==
