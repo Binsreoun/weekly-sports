@@ -15,4 +15,5 @@ public class CommentRes {
     String content;
     String username;
     String createTimestamp;
+    int like;
 }

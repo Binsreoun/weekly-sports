@@ -19,6 +19,7 @@ import com.weekly.sports.model.dto.response.comment.CommentRes;
 import com.weekly.sports.model.entity.BoardEntity;
 import com.weekly.sports.model.entity.BoardLikeEntity;
 import com.weekly.sports.model.entity.CommentEntity;
+import com.weekly.sports.model.entity.CommentLikeEntity;
 import com.weekly.sports.model.entity.UserEntity;
 import com.weekly.sports.repository.BoardRepository;
 import com.weekly.sports.repository.UserRepository;
@@ -146,8 +147,13 @@ public class BoardService {
         }
 
         @Mapping(source = "boardLikeEntities", target = "like")
-        default int toLike(List<BoardLikeEntity> boardLikeEntities) {
+        default int toBoardLike(List<BoardLikeEntity> boardLikeEntities) {
             return boardLikeEntities.size();
+        }
+
+        @Mapping(source = "commentLikeEntities", target = "like")
+        default int toCommentLike(List<CommentLikeEntity> commentLikeEntities) {
+            return commentLikeEntities.size();
         }
 
         @Mapping(source = "createTimestamp", target = "createTimestamp")
@@ -160,6 +166,7 @@ public class BoardService {
         BoardUpdateRes toBoardUpdateRes(BoardEntity board);
 
         @Mapping(source = "userEntity", target = "username")
+        @Mapping(source = "commentLikeEntities", target = "like")
         CommentRes toCommentRes(CommentEntity commentEntity);
 
         @Mapping(source = "userEntity", target = "username")
