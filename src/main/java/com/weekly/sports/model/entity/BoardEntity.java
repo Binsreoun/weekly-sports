@@ -1,6 +1,5 @@
 package com.weekly.sports.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,7 +41,6 @@ public class BoardEntity extends BaseEntity {
     @OrderBy("createTimestamp DESC")
     private List<CommentEntity> commentEntities;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "boardId", cascade = CascadeType.ALL)
     private List<BoardLikeEntity> boardLikeEntities;
 }
