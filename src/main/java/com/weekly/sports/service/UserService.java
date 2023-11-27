@@ -91,7 +91,7 @@ public class UserService {
         }
         String token = jwtUtil.createToken(email);
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
-        return accessToken;
+        return token;
     }
 
     private String getAccessToken(String authorizationCode, String registrationId) {
