@@ -1,6 +1,5 @@
 package com.weekly.sports.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,7 +34,6 @@ public class CommentEntity extends BaseEntity {
     @JoinColumn(name = "boardId")
     private BoardEntity boardEntity;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "commentId", cascade = CascadeType.ALL)
     private List<CommentLikeEntity> commentLikeEntities;
 }
