@@ -19,5 +19,6 @@ public class BoardGetRes {
     private String createTimestamp;
     private String username;
     private int visit;
+    private int like;
     private List<CommentRes> commentReses;
 }
