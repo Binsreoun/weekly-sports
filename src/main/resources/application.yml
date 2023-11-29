@@ -4,19 +4,19 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${ DB_URL }
-    username: ${ DB_USERNAME }
-    password: ${ DB_PASSWORD }
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   security:
     oauth2:
       google:
-        client-id: ${ GOOGLE_CLIENT_ID }
-        client-secret: ${ GOOGLE_CLIENT_SECRET }
-        redirect-uri: ${ GOOGLE_REDIRECT_URI }
-        token-uri: ${ TOKEN_URI }
-        resource-uri: ${ GOOGLE_RESOURCE_URI }
-        scope: ${ GOOGLE_SCOPE }
+        client-id: ${GOOGLE_CLIENT_ID}
+        client-secret: ${GOOGLE_CLIENT_SECRET}
+        redirect-uri: ${GOOGLE_REDIRECT_URI}
+        token-uri: ${TOKEN_URI}
+        resource-uri: ${GOOGLE_RESOURCE_URI}
+        scope: ${GOOGLE_SCOPE}
 
   jpa:
     open-in-view: true
