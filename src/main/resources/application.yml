@@ -4,19 +4,19 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://nbcamp.cbmmbliyhxmu.ap-northeast-2.rds.amazonaws.com:3306/sports?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: ysys
-    password: nbcampYs1234!
+    url: ${{ DB_URL }}
+    username: ${{ DB_USERNAME }}
+    password: ${{ DB_PASSWORD }}
 
   security:
     oauth2:
       google:
-        client-id: 915255787613-jugqt0v9bbl7k2r6afabb5pp2bqu9r42.apps.googleusercontent.com
-        client-secret: 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
-        redirect-uri: https://whenwheres.com/v1/users/login/oauth/google
-        token-uri: https://oauth2.googleapis.com/token
-        resource-uri: https://www.googleapis.com/oauth2/v2/userinfo
-        scope: profile, email
+        client-id: ${{ GOOGLE_CLIENT_ID }}
+        client-secret: ${{ GOOGLE_CLIENT_SECRET }}
+        redirect-uri: ${{ GOOGLE_REDIRECT_URI }}
+        token-uri: ${{ TOKEN_URI }}
+        resource-uri: ${{ GOOGLE_RESOURCE_URI }}
+        scope: ${{ GOOGLE_SCOPE }}
 
   jpa:
     open-in-view: true
